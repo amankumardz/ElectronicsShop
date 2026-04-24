@@ -1,9 +1,67 @@
 @model ElectronicsShop.Models.RepairRequest
-<h2>Book Repair</h2>
-<form asp-action="@(Model.IsWalkIn ? "WalkInCreate" : "Create")" method="post">
-    <div class="mb-3"><label asp-for="CustomerName" class="form-label"></label><input asp-for="CustomerName" class="form-control" /></div>
-    <div class="mb-3"><label asp-for="CustomerPhone" class="form-label"></label><input asp-for="CustomerPhone" class="form-control" /></div>
-    <div class="mb-3"><label asp-for="DeviceName" class="form-label"></label><input asp-for="DeviceName" class="form-control" /></div>
-    <div class="mb-3"><label asp-for="IssueDescription" class="form-label"></label><textarea asp-for="IssueDescription" class="form-control"></textarea></div>
-    <button class="btn btn-primary" type="submit">Submit</button>
-</form>
+@{
+    ViewData["Title"] = Model.IsWalkIn ? "Walk-In Entry" : "Book Repair";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card app-card p-4 p-lg-5">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <div>
+                    <h2 class="mb-1">@(Model.IsWalkIn ? "Walk-In Repair Entry" : "Repair Booking")</h2>
+                    <p class="text-muted mb-0">Fill in the details and our technician team will contact you shortly.</p>
+                </div>
+                <span class="badge rounded-pill text-bg-light border px-3 py-2">@(Model.IsWalkIn ? "Quick Entry" : "Online Request")</span>
+            </div>
+
+            <form asp-action="@(Model.IsWalkIn ? "WalkInCreate" : "Create")" method="post" id="repairForm">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="CustomerName" class="form-label"><i class="fa-regular fa-user me-2"></i>Customer Name</label>
+                        <input asp-for="CustomerName" class="form-control" placeholder="Enter full name" />
+                        <span asp-validation-for="CustomerName" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="CustomerPhone" class="form-label"><i class="fa-solid fa-phone me-2"></i>Phone</label>
+                        <input asp-for="CustomerPhone" class="form-control" placeholder="Enter contact number" />
+                        <span asp-validation-for="CustomerPhone" class="text-danger small"></span>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="DeviceName" class="form-label"><i class="fa-solid fa-mobile-screen-button me-2"></i>Device Name</label>
+                        <input asp-for="DeviceName" class="form-control" placeholder="e.g., Samsung TV 42\"" />
+                        <span asp-validation-for="DeviceName" class="text-danger small"></span>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="IssueDescription" class="form-label"><i class="fa-regular fa-pen-to-square me-2"></i>Issue Description</label>
+                        <textarea asp-for="IssueDescription" class="form-control" rows="5" placeholder="Describe the issue in detail"></textarea>
+                        <span asp-validation-for="IssueDescription" class="text-danger small"></span>
+                    </div>
+                </div>
+                <div class="d-flex flex-wrap gap-2 mt-4">
+                    <button class="btn btn-primary" type="submit" id="repairSubmitBtn">
+                        <span class="btn-text">Submit Request</span>
+                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                    </button>
+                    <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="Index">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (() => {
+            const form = document.getElementById('repairForm');
+            const submitBtn = document.getElementById('repairSubmitBtn');
+            if (!form || !submitBtn) return;
+            form.addEventListener('submit', () => {
+                submitBtn.disabled = true;
+                submitBtn.querySelector('.btn-text')?.classList.add('d-none');
+                submitBtn.querySelector('.spinner-border')?.classList.remove('d-none');
+            });
+        })();
+    </script>
+}

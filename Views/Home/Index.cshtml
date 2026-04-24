@@ -2,10 +2,96 @@
     ViewData["Title"] = "Home";
 }
 
-<div class="p-5 mb-4 bg-light rounded-3">
-    <div class="container-fluid py-5">
-        <h1 class="display-5 fw-bold">Electronics Shop + Repair Management</h1>
-        <p class="col-md-8 fs-5">Browse products and track your repair requests in one place.</p>
-        <a class="btn btn-primary btn-lg" asp-controller="Products" asp-action="Index">Explore Products</a>
+<section class="hero-section mb-5">
+    <div class="row g-4 align-items-center">
+        <div class="col-lg-6">
+            <span class="hero-badge mb-3 d-inline-block">Trusted by 10k+ customers</span>
+            <h1 class="display-5 fw-bold mb-3">Your Trusted Electronics &amp; Repair Shop</h1>
+            <p class="lead text-muted mb-4">Shop premium electronics, schedule expert repairs, and track every request from one smart dashboard.</p>
+            <div class="d-flex flex-wrap gap-2">
+                <a class="btn btn-primary btn-lg" asp-controller="Products" asp-action="Index"><i class="fa-solid fa-cart-shopping me-2"></i>Browse Products</a>
+                <a class="btn btn-outline-primary btn-lg" asp-controller="Repairs" asp-action="Create"><i class="fa-solid fa-screwdriver-wrench me-2"></i>Book Repair</a>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="hero-image-wrapper">
+                <img class="img-fluid rounded-4" src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80" alt="Modern electronics store setup" />
+            </div>
+        </div>
     </div>
-</div>
+</section>
+
+<section class="mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="section-title mb-0">Shop by Category</h2>
+        <span class="text-muted">Popular picks</span>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <article class="category-card h-100">
+                <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=800&q=80" alt="Home appliances" class="img-fluid w-100" />
+                <div class="p-3">
+                    <h5 class="mb-1">Home Appliances</h5>
+                    <p class="text-muted mb-0">TVs, fans, coolers, and everyday essentials.</p>
+                </div>
+            </article>
+        </div>
+        <div class="col-md-4">
+            <article class="category-card h-100">
+                <img src="https://images.unsplash.com/photo-1581092160607-ee22731f98f0?auto=format&fit=crop&w=800&q=80" alt="Wiring items" class="img-fluid w-100" />
+                <div class="p-3">
+                    <h5 class="mb-1">Wiring Items</h5>
+                    <p class="text-muted mb-0">Reliable cables, switches, and circuit solutions.</p>
+                </div>
+            </article>
+        </div>
+        <div class="col-md-4">
+            <article class="category-card h-100">
+                <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=800&q=80" alt="DJ equipment" class="img-fluid w-100" />
+                <div class="p-3">
+                    <h5 class="mb-1">DJ Equipment</h5>
+                    <p class="text-muted mb-0">Speakers, mixers, and gear for events.</p>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="section-title mb-0">Featured Products</h2>
+        <a asp-controller="Products" asp-action="Index" class="btn btn-sm btn-outline-primary">View All</a>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card product-card h-100">
+                <img src="https://images.unsplash.com/photo-1593640495392-8d906902f9a2?auto=format&fit=crop&w=900&q=80" class="card-img-top" alt="Smart television" />
+                <div class="card-body">
+                    <h5 class="card-title">Ultra HD Smart TV</h5>
+                    <p class="fw-semibold mb-3">$799.00</p>
+                    <a asp-controller="Products" asp-action="Index" class="btn btn-primary">View Product</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card product-card h-100">
+                <img src="https://images.unsplash.com/photo-1580894894513-541e068a3e2b?auto=format&fit=crop&w=900&q=80" class="card-img-top" alt="Cooling fan" />
+                <div class="card-body">
+                    <h5 class="card-title">High-Speed Cooling Fan</h5>
+                    <p class="fw-semibold mb-3">$129.00</p>
+                    <a asp-controller="Products" asp-action="Index" class="btn btn-primary">View Product</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card product-card h-100">
+                <img src="https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=900&q=80" class="card-img-top" alt="Bluetooth speaker" />
+                <div class="card-body">
+                    <h5 class="card-title">Portable Bluetooth Speaker</h5>
+                    <p class="fw-semibold mb-3">$89.00</p>
+                    <a asp-controller="Products" asp-action="Index" class="btn btn-primary">View Product</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

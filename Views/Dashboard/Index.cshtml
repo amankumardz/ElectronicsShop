@@ -1,8 +1,72 @@
 @model ElectronicsShop.ViewModels.DashboardViewModel
-<h2>Admin Dashboard</h2>
-<div class="row">
-    <div class="col-md-3"><div class="card"><div class="card-body"><h5>Total Products</h5><p>@Model.TotalProducts</p></div></div></div>
-    <div class="col-md-3"><div class="card"><div class="card-body"><h5>Total Repairs</h5><p>@Model.TotalRepairs</p></div></div></div>
-    <div class="col-md-3"><div class="card"><div class="card-body"><h5>Pending</h5><p>@Model.PendingRepairs</p></div></div></div>
-    <div class="col-md-3"><div class="card"><div class="card-body"><h5>Completed</h5><p>@Model.CompletedRepairs</p></div></div></div>
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+    <div>
+        <h2 class="mb-1">Admin Dashboard</h2>
+        <p class="text-muted mb-0">Monitor products, repairs, and service performance at a glance.</p>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-6 col-xl-3">
+        <article class="stat-card stat-primary">
+            <div>
+                <p class="mb-1">Total Products</p>
+                <h3 class="mb-0">@Model.TotalProducts</h3>
+            </div>
+            <i class="fa-solid fa-boxes-stacked"></i>
+        </article>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <article class="stat-card stat-info">
+            <div>
+                <p class="mb-1">Total Repairs</p>
+                <h3 class="mb-0">@Model.TotalRepairs</h3>
+            </div>
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+        </article>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <article class="stat-card stat-warning">
+            <div>
+                <p class="mb-1">Pending Repairs</p>
+                <h3 class="mb-0">@Model.PendingRepairs</h3>
+            </div>
+            <i class="fa-regular fa-clock"></i>
+        </article>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <article class="stat-card stat-success">
+            <div>
+                <p class="mb-1">Completed Repairs</p>
+                <h3 class="mb-0">@Model.CompletedRepairs</h3>
+            </div>
+            <i class="fa-solid fa-circle-check"></i>
+        </article>
+    </div>
+</div>
+
+<div class="card app-card p-4">
+    <h5 class="mb-3">Repairs Overview</h5>
+    @{
+        var totalRepairs = Math.Max(Model.TotalRepairs, 1);
+        var pendingPercent = (int)Math.Round((double)Model.PendingRepairs / totalRepairs * 100);
+        var completedPercent = (int)Math.Round((double)Model.CompletedRepairs / totalRepairs * 100);
+        var inProcessPercent = Math.Max(0, 100 - pendingPercent - completedPercent);
+    }
+    <div class="mb-3">
+        <div class="d-flex justify-content-between"><span>Pending</span><span>@pendingPercent%</span></div>
+        <div class="progress" role="progressbar"><div class="progress-bar bg-warning" style="width:@pendingPercent%"></div></div>
+    </div>
+    <div class="mb-3">
+        <div class="d-flex justify-content-between"><span>In Progress</span><span>@inProcessPercent%</span></div>
+        <div class="progress" role="progressbar"><div class="progress-bar bg-primary" style="width:@inProcessPercent%"></div></div>
+    </div>
+    <div>
+        <div class="d-flex justify-content-between"><span>Completed</span><span>@completedPercent%</span></div>
+        <div class="progress" role="progressbar"><div class="progress-bar bg-success" style="width:@completedPercent%"></div></div>
+    </div>
 </div>
