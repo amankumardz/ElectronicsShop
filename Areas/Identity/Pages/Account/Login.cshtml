@@ -1,0 +1,96 @@
+@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Sign in";
+}
+
+<div class="auth-page d-flex align-items-center justify-content-center py-4 py-md-5">
+    <div class="auth-card w-100 p-4 p-md-5">
+        <div class="text-center mb-4">
+            <h1 class="section-title h3 mb-2">Welcome back</h1>
+            <p class="text-muted mb-0">Sign in to manage repairs, orders, and your account.</p>
+        </div>
+
+        <form id="account" method="post" novalidate>
+            <div asp-validation-summary="ModelOnly" class="text-danger small mb-3" role="alert"></div>
+
+            <div class="mb-3">
+                <label asp-for="Input.Email" class="form-label"></label>
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <span asp-validation-for="Input.Email" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.Password" class="form-label"></label>
+                <div class="input-group">
+                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" id="login-password" />
+                    <button type="button" class="btn btn-outline-secondary" id="toggle-login-password" aria-label="Toggle password visibility">
+                        <i class="fa-regular fa-eye"></i>
+                    </button>
+                </div>
+                <span asp-validation-for="Input.Password" class="text-danger small"></span>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" asp-for="Input.RememberMe" />
+                    <label asp-for="Input.RememberMe" class="form-check-label"></label>
+                </div>
+            </div>
+
+            <button id="login-submit" type="submit" class="btn btn-primary w-100 auth-submit-btn">
+                <span class="btn-text">Sign in</span>
+                <span class="btn-spinner spinner-border spinner-border-sm ms-2 d-none" role="status" aria-hidden="true"></span>
+            </button>
+        </form>
+
+        @if (Model.ExternalLogins?.Any(p => p.Name == "Google") == true)
+        {
+            <div class="auth-divider my-4 text-center"><span>or continue with</span></div>
+            <form id="external-account" asp-page="./Login" asp-page-handler="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="d-grid">
+                @foreach (var provider in Model.ExternalLogins)
+                {
+                    if (provider.Name == "Google")
+                    {
+                        <button type="submit" class="btn btn-outline-dark" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">
+                            <i class="fa-brands fa-google me-2"></i>Continue with Google
+                        </button>
+                    }
+                }
+            </form>
+        }
+
+        <p class="text-center mt-4 mb-0 text-muted">
+            New to Electronics Shop?
+            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="fw-semibold">Create an account</a>
+        </p>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (() => {
+            const form = document.getElementById('account');
+            const submitBtn = document.getElementById('login-submit');
+            const spinner = submitBtn?.querySelector('.btn-spinner');
+            const text = submitBtn?.querySelector('.btn-text');
+            const passwordInput = document.getElementById('login-password');
+            const togglePasswordBtn = document.getElementById('toggle-login-password');
+            const toggleIcon = togglePasswordBtn?.querySelector('i');
+
+            togglePasswordBtn?.addEventListener('click', () => {
+                const show = passwordInput.type === 'password';
+                passwordInput.type = show ? 'text' : 'password';
+                toggleIcon?.classList.toggle('fa-eye', !show);
+                toggleIcon?.classList.toggle('fa-eye-slash', show);
+            });
+
+            form?.addEventListener('submit', () => {
+                submitBtn?.setAttribute('disabled', 'disabled');
+                spinner?.classList.remove('d-none');
+                text && (text.textContent = 'Signing in...');
+            });
+        })();
+    </script>
+}

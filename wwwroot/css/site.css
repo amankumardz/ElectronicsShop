@@ -162,3 +162,44 @@ body {
 @media (max-width: 992px) {
   .sticky-filter { position: static; }
 }
+
+.auth-page {
+  min-height: calc(100vh - 180px);
+}
+
+.auth-card {
+  max-width: 520px;
+  margin: 0 auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+}
+
+.auth-divider {
+  position: relative;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.auth-divider::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  border-top: 1px solid var(--border);
+  z-index: 0;
+}
+
+.auth-divider span {
+  position: relative;
+  background: var(--surface);
+  padding: 0 0.75rem;
+  z-index: 1;
+}
+
+.auth-submit-btn:disabled {
+  opacity: .9;
+  cursor: not-allowed;
+}
