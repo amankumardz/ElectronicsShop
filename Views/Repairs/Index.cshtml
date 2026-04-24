@@ -1,15 +1,56 @@
 @model IEnumerable<ElectronicsShop.Models.RepairRequest>
-<h2>Manage Repairs</h2>
-<a class="btn btn-primary mb-3" asp-action="WalkInCreate">Add Walk-In Repair</a>
-<table class="table table-striped">
-    <thead><tr><th>ID</th><th>Customer</th><th>Device</th><th>Status</th><th>Cost</th><th></th></tr></thead>
-    <tbody>
-    @foreach (var r in Model)
+@using ElectronicsShop.Models.Enums
+@{
+    ViewData["Title"] = "Manage Repairs";
+
+    string StatusClass(RepairStatus status) => status switch
     {
-        <tr>
-            <td>@r.Id</td><td>@r.CustomerName</td><td>@r.DeviceName</td><td>@r.Status</td><td>@(r.EstimatedCost?.ToString("C") ?? "-")</td>
-            <td><a asp-action="UpdateStatus" asp-route-id="@r.Id">Update</a></td>
-        </tr>
-    }
-    </tbody>
-</table>
+        RepairStatus.Pending => "text-bg-warning",
+        RepairStatus.InProgress => "text-bg-primary",
+        RepairStatus.Completed or RepairStatus.Delivered => "text-bg-success",
+        RepairStatus.Cancelled => "text-bg-secondary",
+        _ => "text-bg-light"
+    };
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+    <div>
+        <h2 class="mb-1">Repair Management</h2>
+        <p class="text-muted mb-0">Update repair progress and process walk-in customers quickly.</p>
+    </div>
+    <a class="btn btn-primary" asp-action="WalkInCreate"><i class="fa-solid fa-user-plus me-2"></i>Add Walk-In Entry</a>
+</div>
+
+<div class="card app-card p-3 p-lg-4">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Customer</th>
+                <th>Device</th>
+                <th>Status</th>
+                <th>Estimated Cost</th>
+                <th class="text-end">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var r in Model)
+            {
+                <tr>
+                    <td>#@r.Id</td>
+                    <td>@r.CustomerName</td>
+                    <td>@r.DeviceName</td>
+                    <td><span class="badge @StatusClass(r.Status)">@r.Status</span></td>
+                    <td>@(r.EstimatedCost?.ToString("C") ?? "-")</td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-outline-primary" asp-action="UpdateStatus" asp-route-id="@r.Id">
+                            <i class="fa-solid fa-pen-to-square me-1"></i>Update
+                        </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,13 +1,42 @@
 @model ElectronicsShop.ViewModels.RepairStatusUpdateViewModel
 @using ElectronicsShop.Models.Enums
-<h2>Update Repair Status</h2>
-<form asp-action="UpdateStatus" method="post">
-    <input type="hidden" asp-for="Id" />
-    <div class="mb-3">
-        <label asp-for="Status" class="form-label"></label>
-        <select asp-for="Status" class="form-select" asp-items="Html.GetEnumSelectList<RepairStatus>()"></select>
+@{
+    ViewData["Title"] = "Update Repair Status";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="card app-card p-4 p-lg-5">
+            <h2 class="mb-3">Update Repair #@Model.Id</h2>
+            <p class="text-muted mb-4">Change status, add notes, and update estimated cost.</p>
+
+            <form asp-action="UpdateStatus" method="post">
+                <input type="hidden" asp-for="Id" />
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <div class="mb-3">
+                    <label asp-for="Status" class="form-label">Status</label>
+                    <select asp-for="Status" class="form-select" asp-items="Html.GetEnumSelectList<RepairStatus>()"></select>
+                    <span asp-validation-for="Status" class="text-danger small"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="EstimatedCost" class="form-label">Estimated Cost</label>
+                    <input asp-for="EstimatedCost" class="form-control" />
+                    <span asp-validation-for="EstimatedCost" class="text-danger small"></span>
+                </div>
+                <div class="mb-4">
+                    <label asp-for="AdminNotes" class="form-label">Admin Notes</label>
+                    <textarea asp-for="AdminNotes" class="form-control" rows="4" placeholder="Add notes for technicians or customer updates"></textarea>
+                    <span asp-validation-for="AdminNotes" class="text-danger small"></span>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary" type="submit"><i class="fa-solid fa-floppy-disk me-2"></i>Save Changes</button>
+                    <a class="btn btn-outline-secondary" asp-action="Index">Cancel</a>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="mb-3"><label asp-for="EstimatedCost" class="form-label"></label><input asp-for="EstimatedCost" class="form-control" /></div>
-    <div class="mb-3"><label asp-for="AdminNotes" class="form-label"></label><textarea asp-for="AdminNotes" class="form-control"></textarea></div>
-    <button class="btn btn-primary" type="submit">Save</button>
-</form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

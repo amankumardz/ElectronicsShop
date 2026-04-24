@@ -1,13 +1,50 @@
 @model IEnumerable<ElectronicsShop.Models.RepairRequest>
-<h2>My Repairs</h2>
-<table class="table table-striped">
-    <thead><tr><th>ID</th><th>Device</th><th>Status</th><th>Cost</th><th>Updated</th></tr></thead>
-    <tbody>
+@using ElectronicsShop.Models.Enums
+@{
+    ViewData["Title"] = "My Repairs";
+
+    string StatusClass(RepairStatus status) => status switch
+    {
+        RepairStatus.Pending => "text-bg-warning",
+        RepairStatus.InProgress => "text-bg-primary",
+        RepairStatus.Completed or RepairStatus.Delivered => "text-bg-success",
+        RepairStatus.Cancelled => "text-bg-secondary",
+        _ => "text-bg-light"
+    };
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+    <div>
+        <h2 class="mb-1">My Repairs</h2>
+        <p class="text-muted mb-0">Track status and latest updates for all your devices.</p>
+    </div>
+    <a class="btn btn-primary" asp-action="Create"><i class="fa-solid fa-plus me-2"></i>Book New Repair</a>
+</div>
+
+<div class="row g-4">
     @foreach (var r in Model)
     {
-        <tr>
-            <td>@r.Id</td><td>@r.DeviceName</td><td>@r.Status</td><td>@(r.EstimatedCost?.ToString("C") ?? "-")</td><td>@(r.UpdatedAtUtc?.ToString("u") ?? r.CreatedAtUtc.ToString("u"))</td>
-        </tr>
+        <div class="col-md-6">
+            <article class="card app-card h-100 p-3">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div>
+                        <p class="text-muted mb-1">Request #@r.Id</p>
+                        <h5 class="mb-0">@r.DeviceName</h5>
+                    </div>
+                    <span class="badge @StatusClass(r.Status)">@r.Status</span>
+                </div>
+                <p class="mb-2"><strong>Estimated Cost:</strong> @(r.EstimatedCost?.ToString("C") ?? "-")</p>
+                <p class="mb-3 text-muted"><strong>Last Updated:</strong> @(r.UpdatedAtUtc?.ToString("MMM dd, yyyy HH:mm") ?? r.CreatedAtUtc.ToString("MMM dd, yyyy HH:mm")) UTC</p>
+                <div class="timeline-dot">Status updated</div>
+            </article>
+        </div>
     }
-    </tbody>
-</table>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="card app-card p-4 text-center">
+        <p class="text-muted mb-3">No repair requests found yet.</p>
+        <a class="btn btn-primary" asp-action="Create">Create Your First Request</a>
+    </div>
+}
