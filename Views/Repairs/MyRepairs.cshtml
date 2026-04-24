@@ -1,0 +1,13 @@
+@model IEnumerable<ElectronicsShop.Models.RepairRequest>
+<h2>My Repairs</h2>
+<table class="table table-striped">
+    <thead><tr><th>ID</th><th>Device</th><th>Status</th><th>Cost</th><th>Updated</th></tr></thead>
+    <tbody>
+    @foreach (var r in Model)
+    {
+        <tr>
+            <td>@r.Id</td><td>@r.DeviceName</td><td>@r.Status</td><td>@(r.EstimatedCost?.ToString("C") ?? "-")</td><td>@(r.UpdatedAtUtc?.ToString("u") ?? r.CreatedAtUtc.ToString("u"))</td>
+        </tr>
+    }
+    </tbody>
+</table>
