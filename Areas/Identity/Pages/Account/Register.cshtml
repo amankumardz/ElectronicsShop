@@ -1,0 +1,86 @@
+@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Create account";
+}
+
+<div class="auth-page d-flex align-items-center justify-content-center py-4 py-md-5">
+    <div class="auth-card w-100 p-4 p-md-5">
+        <div class="text-center mb-4">
+            <h1 class="section-title h3 mb-2">Create your account</h1>
+            <p class="text-muted mb-0">Start tracking repairs and managing purchases in one place.</p>
+        </div>
+
+        <form id="register-form" method="post" novalidate>
+            <div asp-validation-summary="ModelOnly" class="text-danger small mb-3" role="alert"></div>
+
+            <div class="mb-3">
+                <label asp-for="Input.FullName" class="form-label"></label>
+                <input asp-for="Input.FullName" class="form-control" autocomplete="name" aria-required="true" placeholder="Jane Smith" />
+                <span asp-validation-for="Input.FullName" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.Email" class="form-label"></label>
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <span asp-validation-for="Input.Email" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.Password" class="form-label"></label>
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+                <span asp-validation-for="Input.Password" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.ConfirmPassword" class="form-label"></label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger small"></span>
+            </div>
+
+            <button id="register-submit" type="submit" class="btn btn-primary w-100 auth-submit-btn">
+                <span class="btn-text">Create account</span>
+                <span class="btn-spinner spinner-border spinner-border-sm ms-2 d-none" role="status" aria-hidden="true"></span>
+            </button>
+        </form>
+
+        @if (Model.ExternalLogins?.Any(p => p.Name == "Google") == true)
+        {
+            <div class="auth-divider my-4 text-center"><span>or continue with</span></div>
+            <form id="external-account" asp-page="./Register" asp-page-handler="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="d-grid">
+                @foreach (var provider in Model.ExternalLogins)
+                {
+                    if (provider.Name == "Google")
+                    {
+                        <button type="submit" class="btn btn-outline-dark" name="provider" value="@provider.Name" title="Sign up using your @provider.DisplayName account">
+                            <i class="fa-brands fa-google me-2"></i>Continue with Google
+                        </button>
+                    }
+                }
+            </form>
+        }
+
+        <p class="text-center mt-4 mb-0 text-muted">
+            Already have an account?
+            <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" class="fw-semibold">Sign in</a>
+        </p>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (() => {
+            const form = document.getElementById('register-form');
+            const submitBtn = document.getElementById('register-submit');
+            const spinner = submitBtn?.querySelector('.btn-spinner');
+            const text = submitBtn?.querySelector('.btn-text');
+
+            form?.addEventListener('submit', () => {
+                submitBtn?.setAttribute('disabled', 'disabled');
+                spinner?.classList.remove('d-none');
+                text && (text.textContent = 'Creating account...');
+            });
+        })();
+    </script>
+}
