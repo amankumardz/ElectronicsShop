@@ -4,27 +4,34 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Electronics Shop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWix+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkR4j8ypTXgT+ecYt1R9P9Qp1hWQvZ4Q0cZA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-sm navbar-light bg-light border-bottom mb-3">
-        <div class="container-fluid">
-            <a class="navbar-brand" asp-controller="Home" asp-action="Index">Electronics Shop</a>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item"><a class="nav-link" asp-controller="Products" asp-action="Index">Products</a></li>
+    <nav class="navbar navbar-expand-lg navbar-dark app-navbar sticky-top">
+        <div class="container py-2">
+            <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
+                <i class="fa-solid fa-bolt-lightning me-2"></i>Electronics Shop
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-2">
+                    <li class="nav-item"><a class="nav-link" asp-controller="Products" asp-action="Index"><i class="fa-solid fa-box-open me-1"></i>Products</a></li>
                     @if (User.Identity?.IsAuthenticated == true)
                     {
-                        <li class="nav-item"><a class="nav-link" asp-controller="Repairs" asp-action="MyRepairs">My Repairs</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Repairs" asp-action="Create">Book Repair</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Repairs" asp-action="Create"><i class="fa-solid fa-screwdriver-wrench me-1"></i>Repairs</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Repairs" asp-action="MyRepairs"><i class="fa-solid fa-list-check me-1"></i>My Repairs</a></li>
                     }
                     @if (User.IsInRole("Admin"))
                     {
-                        <li class="nav-item"><a class="nav-link" asp-controller="Dashboard" asp-action="Index">Dashboard</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Products" asp-action="AdminIndex">Manage Products</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Repairs" asp-action="Index">Manage Repairs</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Dashboard" asp-action="Index"><i class="fa-solid fa-chart-line me-1"></i>Dashboard</a></li>
                     }
                 </ul>
                 <partial name="_LoginPartial" />
@@ -32,11 +39,49 @@
         </div>
     </nav>
 </header>
-<div class="container">
-    <main role="main" class="pb-3">
+
+<div class="container py-4 py-lg-5 page-shell fade-in-up">
+    <main role="main">
         @RenderBody()
     </main>
 </div>
+
+<footer class="footer-section mt-5">
+    <div class="container py-4">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <h5 class="footer-title">Electronics Shop</h5>
+                <p class="mb-1"><i class="fa-solid fa-location-dot me-2"></i>123 Main Street, NY, USA</p>
+                <p class="mb-1"><i class="fa-solid fa-phone me-2"></i>+1 (555) 123-4567</p>
+                <p class="mb-0"><i class="fa-solid fa-envelope me-2"></i>support@electronicsshop.com</p>
+            </div>
+            <div class="col-md-4">
+                <h5 class="footer-title">Quick Links</h5>
+                <ul class="list-unstyled mb-0">
+                    <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-controller="Products" asp-action="Index">Products</a></li>
+                    <li><a asp-controller="Repairs" asp-action="Create">Book Repair</a></li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li><a asp-controller="Dashboard" asp-action="Index">Admin Dashboard</a></li>
+                    }
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5 class="footer-title">Follow Us</h5>
+                <div class="social-links d-flex gap-3">
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <hr class="my-4" />
+        <p class="mb-0 text-center small">&copy; @DateTime.UtcNow.Year Electronics Shop. All rights reserved.</p>
+    </div>
+</footer>
+
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>

@@ -1,13 +1,30 @@
 @model ElectronicsShop.ViewModels.RepairStatusUpdateViewModel
 @using ElectronicsShop.Models.Enums
-<h2>Update Repair Status</h2>
-<form asp-action="UpdateStatus" method="post">
-    <input type="hidden" asp-for="Id" />
-    <div class="mb-3">
-        <label asp-for="Status" class="form-label"></label>
-        <select asp-for="Status" class="form-select" asp-items="Html.GetEnumSelectList<RepairStatus>()"></select>
+@{
+    ViewData["Title"] = "Update Repair Status";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <section class="form-shell p-4 p-lg-5">
+            <h1 class="h3 fw-bold mb-3">Update Repair Status</h1>
+            <form asp-action="UpdateStatus" method="post">
+                <input type="hidden" asp-for="Id" />
+                <div class="mb-3">
+                    <label asp-for="Status" class="form-label">Status</label>
+                    <select asp-for="Status" class="form-select" asp-items="Html.GetEnumSelectList<RepairStatus>()"></select>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="EstimatedCost" class="form-label">Estimated Cost</label>
+                    <input asp-for="EstimatedCost" class="form-control" />
+                </div>
+                <div class="mb-4">
+                    <label asp-for="AdminNotes" class="form-label">Admin Notes</label>
+                    <textarea asp-for="AdminNotes" rows="4" class="form-control"></textarea>
+                </div>
+                <button class="btn btn-primary" type="submit"><i class="fa-solid fa-floppy-disk me-2"></i>Save Changes</button>
+                <a class="btn btn-outline-secondary ms-2" asp-action="Index">Cancel</a>
+            </form>
+        </section>
     </div>
-    <div class="mb-3"><label asp-for="EstimatedCost" class="form-label"></label><input asp-for="EstimatedCost" class="form-control" /></div>
-    <div class="mb-3"><label asp-for="AdminNotes" class="form-label"></label><textarea asp-for="AdminNotes" class="form-control"></textarea></div>
-    <button class="btn btn-primary" type="submit">Save</button>
-</form>
+</div>

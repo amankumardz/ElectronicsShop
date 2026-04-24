@@ -2,10 +2,77 @@
     ViewData["Title"] = "Home";
 }
 
-<div class="p-5 mb-4 bg-light rounded-3">
-    <div class="container-fluid py-5">
-        <h1 class="display-5 fw-bold">Electronics Shop + Repair Management</h1>
-        <p class="col-md-8 fs-5">Browse products and track your repair requests in one place.</p>
-        <a class="btn btn-primary btn-lg" asp-controller="Products" asp-action="Index">Explore Products</a>
+<section class="hero-section p-4 p-lg-5 mb-5">
+    <div class="row align-items-center g-4">
+        <div class="col-lg-6">
+            <span class="badge text-bg-light mb-3 px-3 py-2">Electronics + Repair Service</span>
+            <h1 class="display-5 fw-bold mb-3">Your Trusted Electronics &amp; Repair Shop</h1>
+            <p class="lead mb-4">Discover quality electronics, trusted repair services, and seamless after-sales support in one modern platform.</p>
+            <div class="d-flex flex-wrap gap-3">
+                <a class="btn btn-primary btn-lg" asp-controller="Products" asp-action="Index"><i class="fa-solid fa-store me-2"></i>Browse Products</a>
+                <a class="btn btn-outline-light btn-lg" asp-controller="Repairs" asp-action="Create"><i class="fa-solid fa-screwdriver-wrench me-2"></i>Book Repair</a>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <img class="img-fluid hero-img" src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80" alt="Electronics shop display" />
+        </div>
     </div>
-</div>
+</section>
+
+<section class="mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="section-title mb-0">Shop by Category</h2>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <article class="feature-card h-100">
+                <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=800&q=80" alt="Home appliances" class="feature-image" />
+                <div class="p-3">
+                    <h5>Home Appliances</h5>
+                    <p class="mb-0 text-muted">Reliable appliances for daily comfort and efficiency.</p>
+                </div>
+            </article>
+        </div>
+        <div class="col-md-4">
+            <article class="feature-card h-100">
+                <img src="https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80" alt="Wiring items" class="feature-image" />
+                <div class="p-3">
+                    <h5>Wiring Items</h5>
+                    <p class="mb-0 text-muted">Premium cables, switches, connectors, and safety tools.</p>
+                </div>
+            </article>
+        </div>
+        <div class="col-md-4">
+            <article class="feature-card h-100">
+                <img src="https://images.unsplash.com/photo-1571330735066-03aaa9429d89?auto=format&fit=crop&w=800&q=80" alt="DJ equipment" class="feature-image" />
+                <div class="p-3">
+                    <h5>DJ Equipment</h5>
+                    <p class="mb-0 text-muted">Speakers, mixers, and pro audio systems for events.</p>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="section-title mb-0">Featured Products</h2>
+        <a class="btn btn-sm btn-outline-primary" asp-controller="Products" asp-action="Index">View all</a>
+    </div>
+    <div class="row g-4">
+        @for (var i = 1; i <= 4; i++)
+        {
+            <div class="col-md-6 col-lg-3">
+                <article class="card featured-product-card h-100">
+                    <img class="card-img-top" src="https://picsum.photos/seed/electronics-@i/500/320" alt="Featured electronics @i" />
+                    <div class="card-body">
+                        <h6 class="fw-semibold">Featured Device @i</h6>
+                        <p class="text-muted small mb-2">High quality electronics with warranty support.</p>
+                        <p class="fw-bold text-primary mb-3">$@(99 + (i * 50)).00</p>
+                        <a class="btn btn-sm btn-primary w-100" asp-controller="Products" asp-action="Index">View Product</a>
+                    </div>
+                </article>
+            </div>
+        }
+    </div>
+</section>
