@@ -1,21 +1,85 @@
 @model IEnumerable<ElectronicsShop.Models.Product>
+@using System.Globalization
+@using System.Linq
 @{
     ViewData["Title"] = "Products";
+    var search = Context.Request.Query["search"].ToString();
+    var selectedCategory = Context.Request.Query["category"].ToString();
+    var categories = Model.Select(p => p.Category?.Name).Where(c => !string.IsNullOrWhiteSpace(c)).Distinct().OrderBy(c => c).ToList();
+    var filteredProducts = Model.Where(p =>
+        (string.IsNullOrWhiteSpace(search) || p.Name.Contains(search, StringComparison.OrdinalIgnoreCase) || p.Description.Contains(search, StringComparison.OrdinalIgnoreCase)) &&
+        (string.IsNullOrWhiteSpace(selectedCategory) || (p.Category?.Name ?? string.Empty).Equals(selectedCategory, StringComparison.OrdinalIgnoreCase))
+    ).ToList();
 }
-<h2>Products</h2>
-<div class="row">
-@foreach (var item in Model)
-{
-    <div class="col-md-4 mb-3">
-        <div class="card h-100">
-            <div class="card-body">
-                <h5 class="card-title">@item.Name</h5>
-                <p class="card-text">@item.Description</p>
-                <p><strong>Category:</strong> @item.Category?.Name</p>
-                <p><strong>Price:</strong> @item.Price.ToString("C")</p>
-                <a class="btn btn-sm btn-outline-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
-            </div>
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+    <h1 class="section-title mb-0">Discover Electronics</h1>
+    <span class="text-muted">@filteredProducts.Count product(s) found</span>
+</div>
+
+<div class="row g-4">
+    <aside class="col-lg-3">
+        <div class="glass-panel p-3 sticky-filter">
+            <h5 class="mb-3"><i class="fa-solid fa-filter me-2"></i>Filters</h5>
+            <form method="get" class="d-grid gap-3">
+                <div>
+                    <label class="form-label">Search</label>
+                    <input type="text" name="search" value="@search" class="form-control" placeholder="Product name..." />
+                </div>
+                <div>
+                    <label class="form-label">Category</label>
+                    <select name="category" class="form-select">
+                        <option value="">All Categories</option>
+                        @foreach (var category in categories)
+                        {
+                            @if (selectedCategory == category)
+                            {
+                                <option value="@category" selected>@category</option>
+                            }
+                            else
+                            {
+                                <option value="@category">@category</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <button class="btn btn-primary" type="submit">Apply</button>
+            </form>
         </div>
-    </div>
-}
+    </aside>
+
+    <section class="col-lg-9">
+        <div class="row g-4">
+            @if (!filteredProducts.Any())
+            {
+                <div class="col-12">
+                    <div class="alert alert-light border">No products matched your filters.</div>
+                </div>
+            }
+            else
+            {
+                @foreach (var item in filteredProducts)
+                {
+                    <div class="col-sm-6 col-xl-4">
+                        <article class="product-card h-100">
+                            <div class="product-image-wrap">
+                                <img src="https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&w=700&q=80" alt="@item.Name" class="product-image" />
+                            </div>
+                            <div class="p-3">
+                                <div class="d-flex justify-content-between align-items-start mb-2 gap-2">
+                                    <h5 class="card-title mb-0">@item.Name</h5>
+                                    <span class="badge rounded-pill text-bg-info-subtle text-info-emphasis">@item.Category?.Name</span>
+                                </div>
+                                <p class="text-muted small">@item.Description</p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="fs-5 fw-bold text-primary">@item.Price.ToString("C", CultureInfo.CurrentCulture)</span>
+                                    <a class="btn btn-sm btn-outline-primary" asp-action="Details" asp-route-id="@item.Id">View</a>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                }
+            }
+        </div>
+    </section>
 </div>

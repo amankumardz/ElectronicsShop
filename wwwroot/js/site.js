@@ -1,4 +1,15 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-loading-form]').forEach((form) => {
+        form.addEventListener('submit', () => {
+            const button = form.querySelector('[data-loading-btn]');
+            if (!button) return;
 
-// Write your JavaScript code.
+            const defaultText = button.querySelector('.default-text');
+            const loadingText = button.querySelector('.loading-text');
+
+            button.disabled = true;
+            defaultText?.classList.add('d-none');
+            loadingText?.classList.remove('d-none');
+        });
+    });
+});

@@ -1,8 +1,56 @@
 @model ElectronicsShop.ViewModels.DashboardViewModel
-<h2>Admin Dashboard</h2>
-<div class="row">
-    <div class="col-md-3"><div class="card"><div class="card-body"><h5>Total Products</h5><p>@Model.TotalProducts</p></div></div></div>
-    <div class="col-md-3"><div class="card"><div class="card-body"><h5>Total Repairs</h5><p>@Model.TotalRepairs</p></div></div></div>
-    <div class="col-md-3"><div class="card"><div class="card-body"><h5>Pending</h5><p>@Model.PendingRepairs</p></div></div></div>
-    <div class="col-md-3"><div class="card"><div class="card-body"><h5>Completed</h5><p>@Model.CompletedRepairs</p></div></div></div>
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    var total = Math.Max(Model.TotalRepairs, 1);
+    var pendingPct = (int)Math.Round((double)Model.PendingRepairs / total * 100);
+    var completedPct = (int)Math.Round((double)Model.CompletedRepairs / total * 100);
+}
+
+<h1 class="section-title mb-4">Admin Dashboard</h1>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-6 col-xl-3">
+        <div class="metric-card metric-blue">
+            <i class="fa-solid fa-boxes-stacked"></i>
+            <p>Total Products</p>
+            <h3>@Model.TotalProducts</h3>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="metric-card metric-indigo">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+            <p>Total Repairs</p>
+            <h3>@Model.TotalRepairs</h3>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="metric-card metric-amber">
+            <i class="fa-regular fa-clock"></i>
+            <p>Pending Repairs</p>
+            <h3>@Model.PendingRepairs</h3>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="metric-card metric-green">
+            <i class="fa-solid fa-circle-check"></i>
+            <p>Completed Repairs</p>
+            <h3>@Model.CompletedRepairs</h3>
+        </div>
+    </div>
+</div>
+
+<div class="glass-panel p-4">
+    <h5 class="mb-3">Repairs Status Overview</h5>
+    <div class="mb-3">
+        <div class="d-flex justify-content-between"><span>Pending</span><span>@pendingPct%</span></div>
+        <div class="progress" role="progressbar" aria-label="Pending progress" aria-valuenow="@pendingPct" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar bg-warning" style="width: @pendingPct%"></div>
+        </div>
+    </div>
+    <div>
+        <div class="d-flex justify-content-between"><span>Completed</span><span>@completedPct%</span></div>
+        <div class="progress" role="progressbar" aria-label="Completed progress" aria-valuenow="@completedPct" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar bg-success" style="width: @completedPct%"></div>
+        </div>
+    </div>
 </div>

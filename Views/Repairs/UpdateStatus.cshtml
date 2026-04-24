@@ -1,13 +1,32 @@
 @model ElectronicsShop.ViewModels.RepairStatusUpdateViewModel
 @using ElectronicsShop.Models.Enums
-<h2>Update Repair Status</h2>
-<form asp-action="UpdateStatus" method="post">
-    <input type="hidden" asp-for="Id" />
-    <div class="mb-3">
-        <label asp-for="Status" class="form-label"></label>
-        <select asp-for="Status" class="form-select" asp-items="Html.GetEnumSelectList<RepairStatus>()"></select>
+@{
+    ViewData["Title"] = "Update Repair Status";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="glass-panel p-4">
+            <h1 class="section-title mb-3">Update Repair Status</h1>
+            <form asp-action="UpdateStatus" method="post" class="d-grid gap-3">
+                <input type="hidden" asp-for="Id" />
+                <div>
+                    <label asp-for="Status" class="form-label"></label>
+                    <select asp-for="Status" class="form-select" asp-items="Html.GetEnumSelectList<RepairStatus>()"></select>
+                </div>
+                <div>
+                    <label asp-for="EstimatedCost" class="form-label"></label>
+                    <input asp-for="EstimatedCost" class="form-control" />
+                </div>
+                <div>
+                    <label asp-for="AdminNotes" class="form-label"></label>
+                    <textarea asp-for="AdminNotes" class="form-control" rows="4"></textarea>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary" type="submit"><i class="fa-solid fa-floppy-disk me-2"></i>Save Changes</button>
+                    <a class="btn btn-light border" asp-action="Index">Back</a>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="mb-3"><label asp-for="EstimatedCost" class="form-label"></label><input asp-for="EstimatedCost" class="form-control" /></div>
-    <div class="mb-3"><label asp-for="AdminNotes" class="form-label"></label><textarea asp-for="AdminNotes" class="form-control"></textarea></div>
-    <button class="btn btn-primary" type="submit">Save</button>
-</form>
+</div>
