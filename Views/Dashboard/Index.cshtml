@@ -1,8 +1,63 @@
 @model ElectronicsShop.ViewModels.DashboardViewModel
-<h2>Admin Dashboard</h2>
-<div class="row">
-    <div class="col-md-3"><div class="card"><div class="card-body"><h5>Total Products</h5><p>@Model.TotalProducts</p></div></div></div>
-    <div class="col-md-3"><div class="card"><div class="card-body"><h5>Total Repairs</h5><p>@Model.TotalRepairs</p></div></div></div>
-    <div class="col-md-3"><div class="card"><div class="card-body"><h5>Pending</h5><p>@Model.PendingRepairs</p></div></div></div>
-    <div class="col-md-3"><div class="card"><div class="card-body"><h5>Completed</h5><p>@Model.CompletedRepairs</p></div></div></div>
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<section class="mb-4">
+    <h1 class="h3 fw-bold mb-2">Admin Dashboard</h1>
+    <p class="text-muted mb-0">Overview of inventory and repair pipeline performance.</p>
+</section>
+
+<div class="row g-4">
+    <div class="col-md-6 col-xl-3">
+        <div class="stats-card card-product h-100">
+            <i class="fa-solid fa-boxes-stacked"></i>
+            <h6>Total Products</h6>
+            <p>@Model.TotalProducts</p>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="stats-card card-repairs h-100">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+            <h6>Total Repairs</h6>
+            <p>@Model.TotalRepairs</p>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="stats-card card-pending h-100">
+            <i class="fa-regular fa-hourglass-half"></i>
+            <h6>Pending Repairs</h6>
+            <p>@Model.PendingRepairs</p>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="stats-card card-completed h-100">
+            <i class="fa-regular fa-circle-check"></i>
+            <h6>Completed Repairs</h6>
+            <p>@Model.CompletedRepairs</p>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mt-1">
+    <div class="col-lg-6">
+        <div class="card border-0 rounded-4 p-4 h-100 shadow-sm">
+            <h5 class="mb-3">Repairs Status Snapshot</h5>
+            <div class="progress mb-3" role="progressbar" aria-label="Pending" aria-valuenow="@Model.PendingRepairs" aria-valuemin="0" aria-valuemax="@Math.Max(Model.TotalRepairs, 1)">
+                <div class="progress-bar bg-warning" style="width: @(Model.TotalRepairs == 0 ? 0 : (Model.PendingRepairs * 100 / Model.TotalRepairs))%">Pending</div>
+            </div>
+            <div class="progress">
+                <div class="progress-bar bg-success" style="width: @(Model.TotalRepairs == 0 ? 0 : (Model.CompletedRepairs * 100 / Model.TotalRepairs))%">Completed</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card border-0 rounded-4 p-4 h-100 shadow-sm">
+            <h5 class="mb-3">Quick Actions</h5>
+            <div class="d-grid gap-2">
+                <a class="btn btn-primary" asp-controller="Products" asp-action="AdminIndex">Manage Products</a>
+                <a class="btn btn-outline-primary" asp-controller="Repairs" asp-action="Index">Manage Repairs</a>
+            </div>
+        </div>
+    </div>
 </div>
