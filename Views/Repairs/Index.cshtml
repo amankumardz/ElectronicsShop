@@ -1,0 +1,15 @@
+@model IEnumerable<ElectronicsShop.Models.RepairRequest>
+<h2>Manage Repairs</h2>
+<a class="btn btn-primary mb-3" asp-action="WalkInCreate">Add Walk-In Repair</a>
+<table class="table table-striped">
+    <thead><tr><th>ID</th><th>Customer</th><th>Device</th><th>Status</th><th>Cost</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var r in Model)
+    {
+        <tr>
+            <td>@r.Id</td><td>@r.CustomerName</td><td>@r.DeviceName</td><td>@r.Status</td><td>@(r.EstimatedCost?.ToString("C") ?? "-")</td>
+            <td><a asp-action="UpdateStatus" asp-route-id="@r.Id">Update</a></td>
+        </tr>
+    }
+    </tbody>
+</table>

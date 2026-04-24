@@ -1,0 +1,8 @@
+@model ElectronicsShop.ViewModels.DashboardViewModel
+<h2>Admin Dashboard</h2>
+<div class="row">
+    <div class="col-md-3"><div class="card"><div class="card-body"><h5>Total Products</h5><p>@Model.TotalProducts</p></div></div></div>
+    <div class="col-md-3"><div class="card"><div class="card-body"><h5>Total Repairs</h5><p>@Model.TotalRepairs</p></div></div></div>
+    <div class="col-md-3"><div class="card"><div class="card-body"><h5>Pending</h5><p>@Model.PendingRepairs</p></div></div></div>
+    <div class="col-md-3"><div class="card"><div class="card-body"><h5>Completed</h5><p>@Model.CompletedRepairs</p></div></div></div>
+</div>

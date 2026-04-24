@@ -1,0 +1,9 @@
+@model ElectronicsShop.Models.RepairRequest
+<h2>Book Repair</h2>
+<form asp-action="@(Model.IsWalkIn ? "WalkInCreate" : "Create")" method="post">
+    <div class="mb-3"><label asp-for="CustomerName" class="form-label"></label><input asp-for="CustomerName" class="form-control" /></div>
+    <div class="mb-3"><label asp-for="CustomerPhone" class="form-label"></label><input asp-for="CustomerPhone" class="form-control" /></div>
+    <div class="mb-3"><label asp-for="DeviceName" class="form-label"></label><input asp-for="DeviceName" class="form-control" /></div>
+    <div class="mb-3"><label asp-for="IssueDescription" class="form-label"></label><textarea asp-for="IssueDescription" class="form-control"></textarea></div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+</form>

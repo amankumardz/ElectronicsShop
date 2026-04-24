@@ -1,0 +1,21 @@
+@model IEnumerable<ElectronicsShop.Models.Product>
+@{
+    ViewData["Title"] = "Products";
+}
+<h2>Products</h2>
+<div class="row">
+@foreach (var item in Model)
+{
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">@item.Name</h5>
+                <p class="card-text">@item.Description</p>
+                <p><strong>Category:</strong> @item.Category?.Name</p>
+                <p><strong>Price:</strong> @item.Price.ToString("C")</p>
+                <a class="btn btn-sm btn-outline-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+            </div>
+        </div>
+    </div>
+}
+</div>
