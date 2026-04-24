@@ -1,13 +1,32 @@
 @model IEnumerable<ElectronicsShop.Models.RepairRequest>
-<h2>My Repairs</h2>
-<table class="table table-striped">
-    <thead><tr><th>ID</th><th>Device</th><th>Status</th><th>Cost</th><th>Updated</th></tr></thead>
-    <tbody>
+@{
+    ViewData["Title"] = "My Repairs";
+}
+
+<h1 class="section-title mb-4">My Repair Requests</h1>
+
+<div class="row g-3">
     @foreach (var r in Model)
     {
-        <tr>
-            <td>@r.Id</td><td>@r.DeviceName</td><td>@r.Status</td><td>@(r.EstimatedCost?.ToString("C") ?? "-")</td><td>@(r.UpdatedAtUtc?.ToString("u") ?? r.CreatedAtUtc.ToString("u"))</td>
-        </tr>
+        var statusClass = r.Status.ToString() switch
+        {
+            "Pending" => "badge-status-pending",
+            "InProgress" => "badge-status-progress",
+            _ => "badge-status-completed"
+        };
+
+        <div class="col-md-6 col-xl-4">
+            <article class="glass-panel p-3 h-100">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h5 class="mb-0">@r.DeviceName</h5>
+                    <span class="badge @statusClass">@r.Status</span>
+                </div>
+                <p class="text-muted mb-2">Ticket #@r.Id</p>
+                <div class="small text-muted d-grid gap-1">
+                    <span><i class="fa-regular fa-clock me-2"></i>Updated: @(r.UpdatedAtUtc?.ToLocalTime().ToString("g") ?? r.CreatedAtUtc.ToLocalTime().ToString("g"))</span>
+                    <span><i class="fa-solid fa-dollar-sign me-2"></i>Estimated Cost: @(r.EstimatedCost?.ToString("C") ?? "Pending estimate")</span>
+                </div>
+            </article>
+        </div>
     }
-    </tbody>
-</table>
+</div>
