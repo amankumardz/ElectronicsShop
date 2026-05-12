@@ -4,5 +4,5 @@ namespace ElectronicsShop.Services;
 
 public interface IInvoiceParserService
 {
-    Task<List<ManualStockEntryVm>> ParseAsync(string filePath);
+    Task<InvoiceParseResultVm> ParseAsync(string filePath);
 }
