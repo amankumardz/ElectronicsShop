@@ -1,0 +1,7 @@
+@model IEnumerable<ElectronicsShop.ViewModels.ManualStockEntryVm>
+<h1 class="section-title mb-3">Extracted Invoice Preview (Editable Hook)</h1>
+<p>Uploaded file: @ViewBag.UploadedInvoicePath</p>
+<p class="text-muted">OCR parser is placeholder; integrate service in <code>InvoiceParserService</code>.</p>
+<table class="table"><thead><tr><th>Item</th><th>HSN</th><th>Qty</th><th>Rate</th><th>GST%</th><th>Total</th></tr></thead><tbody>
+@foreach(var i in Model){<tr><td>@i.ProductId</td><td>@i.HsnSac</td><td>@i.Quantity</td><td>@i.PurchaseRate</td><td>@i.GstPercentage</td><td>@i.TotalAmount</td></tr>}
+</tbody></table>

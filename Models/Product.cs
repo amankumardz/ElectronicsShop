@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using ElectronicsShop.Models.Enums;
 
 namespace ElectronicsShop.Models;
 
@@ -19,6 +20,14 @@ public class Product
     public string? Unit { get; set; }
 
     public bool IsActive { get; set; } = true;
+
+    [Range(0, 999999)]
+    public decimal StockQuantity { get; set; }
+
+    [Range(0, 999999)]
+    public decimal MinimumStockLevel { get; set; } = 5;
+
+    public StockAvailabilityStatus StockStatus { get; set; } = StockAvailabilityStatus.OutOfStock;
 
     [Required]
     public int CategoryId { get; set; }

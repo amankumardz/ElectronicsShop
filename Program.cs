@@ -40,6 +40,7 @@ if (!string.IsNullOrWhiteSpace(googleClientId) && !string.IsNullOrWhiteSpace(goo
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IRepairRepository, RepairRepository>();
 builder.Services.AddScoped<IRepairService, RepairService>();
+builder.Services.AddScoped<IInvoiceParserService, InvoiceParserService>();
 
 var app = builder.Build();
 

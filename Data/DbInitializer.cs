@@ -45,6 +45,13 @@ public static class DbInitializer
         {
             var categoryMap = await db.Categories.ToDictionaryAsync(c => c.Name, c => c.Id);
             db.Products.AddRange(
+                new Product { Name = "BTA-880 AHUJA AMPLIFIER SET", CategoryId = categoryMap["DJ Equipment"], Price = 30000, Description = "Amplifier set", Unit = "PCS", StockQuantity = 1 },
+                new Product { Name = "Trendy EE 1200 mm NauticalBlue&ChromeCF", CategoryId = categoryMap["Home Appliances"], Price = 1800, Description = "Ceiling fan", Unit = "PCS", StockQuantity = 3 },
+                new Product { Name = "Wink Led T5 22w Batten 6500k Cw", CategoryId = categoryMap["Wiring Items"], Price = 69.49m, Description = "Batten", Unit = "PCS", StockQuantity = 600 },
+                new Product { Name = "VGMW 300 PLUS", CategoryId = categoryMap["Wiring Items"], Price = 1200, Description = "Electrical item", Unit = "PCS", StockQuantity = 2 },
+                new Product { Name = "VGMW 500 PLUS", CategoryId = categoryMap["Wiring Items"], Price = 1500, Description = "Electrical item", Unit = "PCS", StockQuantity = 1 },
+                new Product { Name = "VSDI 50 CHERRY / GREY", CategoryId = categoryMap["Wiring Items"], Price = 250, Description = "Electrical item", Unit = "PCS", StockQuantity = 2 },
+                new Product { Name = "VGD 20", CategoryId = categoryMap["Wiring Items"], Price = 99, Description = "Electrical item", Unit = "PCS", StockQuantity = 5 },
                 new Product { Name = "TV", CategoryId = categoryMap["Home Appliances"], Price = 30000, Description = "Smart LED TV" },
                 new Product { Name = "Fan", CategoryId = categoryMap["Home Appliances"], Price = 1800, Description = "Ceiling fan" },
                 new Product { Name = "Iron", CategoryId = categoryMap["Home Appliances"], Price = 1400, Description = "Dry iron" },
