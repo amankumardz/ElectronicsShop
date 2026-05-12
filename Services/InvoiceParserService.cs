@@ -3,7 +3,6 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using ElectronicsShop.ViewModels;
 using Tesseract;
-using UglyToad.PdfPig;
 
 namespace ElectronicsShop.Services;
 
@@ -27,12 +26,12 @@ public partial class InvoiceParserService(ILogger<InvoiceParserService> logger, 
     private string ReadText(string filePath)
     {
         var ext = Path.GetExtension(filePath).ToLowerInvariant();
-        if (ext is ".jpg" or ".jpeg" or ".png") return ReadImageWithTesseract(filePath);
+
+        if (ext == ".jpg" || ext == ".jpeg" || ext == ".png")
+            return ReadImageWithTesseract(filePath);
+
         if (ext == ".pdf")
-        {
-            using var pdf = PdfDocument.Open(filePath);
-            return string.Join("\n", pdf.GetPages().Select(p => p.Text));
-        }
+            throw new NotSupportedException("PDF invoice parsing is not supported yet. Please upload JPG, JPEG, or PNG invoice images.");
 
         throw new NotSupportedException($"Unsupported invoice format: {ext}");
     }
@@ -75,7 +74,7 @@ public partial class InvoiceParserService(ILogger<InvoiceParserService> logger, 
         var rows = new List<ManualStockEntryVm>();
         foreach (var line in lines)
         {
-            if (!Regex.IsMatch(line, "\d") || line.Length < 8) continue;
+            if (!Regex.IsMatch(line, @"\d") || line.Length < 8) continue;
 
             var qty = ParseDecimal(FirstGroup(line, @"(\d+(?:\.\d+)?)\s*PCS"))
                       ?? ParseDecimal(FirstGroup(line, @"\bQty\s*[:\-]?\s*(\d+(?:\.\d+)?)"));
