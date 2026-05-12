@@ -55,15 +55,42 @@ public class StockController : Controller
     public async Task<IActionResult> UploadInvoice(InvoiceUploadVm vm)
     {
         if (!ModelState.IsValid) return View(vm);
+        var ext = Path.GetExtension(vm.InvoiceFile.FileName).ToLowerInvariant();
+        var allowed = new[] { ".jpg", ".jpeg", ".png", ".pdf" };
+        if (!allowed.Contains(ext))
+        {
+            ModelState.AddModelError(nameof(vm.InvoiceFile), "Only JPG, PNG and PDF invoices are supported.");
+            return View(vm);
+        }
+
         var folder = Path.Combine(_env.WebRootPath, "uploads", "invoices"); Directory.CreateDirectory(folder);
         var fileName = $"{Guid.NewGuid()}_{Path.GetFileName(vm.InvoiceFile.FileName)}";
         var fullPath = Path.Combine(folder, fileName);
         await using (var fs = System.IO.File.Create(fullPath)) await vm.InvoiceFile.CopyToAsync(fs);
 
-        var items = await _invoiceParser.ParseAsync(fullPath);
-        ViewBag.UploadedInvoicePath = $"/uploads/invoices/{fileName}";
+        var parsed = await _invoiceParser.ParseAsync(fullPath);
+        var invoiceDebug = new StockInvoice
+        {
+            SupplierName = parsed.SupplierName,
+            SupplierGstin = parsed.SupplierGstin,
+            InvoiceNumber = parsed.InvoiceNumber,
+            InvoiceDate = parsed.InvoiceDate,
+            FilePath = $"/uploads/invoices/{fileName}",
+            Notes = parsed.ExtractedJson
+        };
+        _db.StockInvoices.Add(invoiceDebug);
+        await _db.SaveChangesAsync();
+
+        ViewBag.UploadedInvoicePath = invoiceDebug.FilePath;
+        ViewBag.OcrConfidence = parsed.Confidence;
+        ViewBag.RequiresManualReview = parsed.RequiresManualReview;
+        ViewBag.InvoiceNumber = parsed.InvoiceNumber;
+        ViewBag.InvoiceDate = parsed.InvoiceDate?.ToString("yyyy-MM-dd");
+        ViewBag.SupplierName = parsed.SupplierName;
+        ViewBag.SupplierGstin = parsed.SupplierGstin;
+        ViewBag.InvoiceTotal = parsed.TotalAmount;
         await LoadProducts();
-        return View("InvoicePreview", items);
+        return View("InvoicePreview", parsed.Items);
     }
 
     [HttpPost, ValidateAntiForgeryToken]

@@ -1,7 +1,32 @@
 @model IEnumerable<ElectronicsShop.ViewModels.ManualStockEntryVm>
-<h1 class="section-title mb-3">Extracted Invoice Preview (Editable Hook)</h1>
-<p>Uploaded file: @ViewBag.UploadedInvoicePath</p>
-<p class="text-muted">OCR parser is placeholder; integrate service in <code>InvoiceParserService</code>.</p>
-<table class="table"><thead><tr><th>Item</th><th>HSN</th><th>Qty</th><th>Rate</th><th>GST%</th><th>Total</th></tr></thead><tbody>
-@foreach(var i in Model){<tr><td>@i.ProductId</td><td>@i.HsnSac</td><td>@i.Quantity</td><td>@i.PurchaseRate</td><td>@i.GstPercentage</td><td>@i.TotalAmount</td></tr>}
+<h1 class="section-title mb-3">Extracted Invoice Preview (Editable)</h1>
+<p>Uploaded file: <a href="@ViewBag.UploadedInvoicePath" target="_blank">@ViewBag.UploadedInvoicePath</a></p>
+
+<div class="alert @(ViewBag.RequiresManualReview == true ? "alert-warning" : "alert-success")">
+    OCR confidence: <strong>@ViewBag.OcrConfidence</strong>
+    @if (ViewBag.RequiresManualReview == true)
+    {
+        <span>Low confidence detected. Please manually correct values before saving stock.</span>
+    }
+</div>
+
+<div class="mb-3">
+    <div><strong>Invoice Number:</strong> @ViewBag.InvoiceNumber</div>
+    <div><strong>Invoice Date:</strong> @ViewBag.InvoiceDate</div>
+    <div><strong>Supplier:</strong> @ViewBag.SupplierName</div>
+    <div><strong>GSTIN:</strong> @ViewBag.SupplierGstin</div>
+    <div><strong>Total:</strong> ₹@ViewBag.InvoiceTotal</div>
+</div>
+
+<table class="table table-bordered"><thead><tr><th>Item Name</th><th>Qty</th><th>Unit</th><th>Rate</th><th>GST%</th><th>Total</th></tr></thead><tbody>
+@foreach(var i in Model){
+<tr>
+    <td><input class="form-control" value="@i.ItemName" /></td>
+    <td><input class="form-control" value="@i.Quantity" /></td>
+    <td><input class="form-control" value="@i.UnitType" /></td>
+    <td><input class="form-control" value="@i.PurchaseRate" /></td>
+    <td><input class="form-control" value="@i.GstPercentage" /></td>
+    <td><input class="form-control" value="@i.TotalAmount" /></td>
+</tr>
+}
 </tbody></table>

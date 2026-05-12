@@ -21,6 +21,21 @@ public class ManualStockEntryVm
     public decimal TaxableAmount { get; set; }
     public decimal TotalAmount { get; set; }
     public string? Notes { get; set; }
+    public string? ItemName { get; set; }
+}
+
+public class InvoiceParseResultVm
+{
+    public string? InvoiceNumber { get; set; }
+    public DateTime? InvoiceDate { get; set; }
+    public string? SupplierName { get; set; }
+    public string? SupplierGstin { get; set; }
+    public decimal? TotalAmount { get; set; }
+    public decimal Confidence { get; set; }
+    public bool RequiresManualReview => Confidence < 0.65m;
+    public string RawText { get; set; } = string.Empty;
+    public string ExtractedJson { get; set; } = "{}";
+    public List<ManualStockEntryVm> Items { get; set; } = new();
 }
 
 public class InvoiceUploadVm
