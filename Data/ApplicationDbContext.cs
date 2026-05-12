@@ -15,6 +15,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<RepairRequest> RepairRequests => Set<RepairRequest>();
     public DbSet<RepairStatusHistory> RepairStatusHistories => Set<RepairStatusHistory>();
     public DbSet<Sale> Sales => Set<Sale>();
+    public DbSet<StockInvoice> StockInvoices => Set<StockInvoice>();
+    public DbSet<StockEntry> StockEntries => Set<StockEntry>();
+    public DbSet<StockHistoryLog> StockHistoryLogs => Set<StockHistoryLog>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -34,6 +37,12 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(r => r.Customer)
             .WithMany(u => u.RepairRequests)
             .HasForeignKey(r => r.CustomerId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        builder.Entity<StockHistoryLog>()
+            .HasOne(h => h.AdminUser)
+            .WithMany()
+            .HasForeignKey(h => h.AdminUserId)
             .OnDelete(DeleteBehavior.SetNull);
 
         builder.Entity<RepairStatusHistory>()

@@ -1,0 +1,13 @@
+@model ElectronicsShop.ViewModels.ManualStockEntryVm
+<h1 class="section-title mb-3">Manual Stock Entry</h1>
+<form method="post" class="glass-panel p-3">
+<div class="row g-2">
+<div class="col-md-6"><label>Product</label><select asp-for="ProductId" asp-items="ViewBag.ProductId" class="form-select"></select></div>
+<div class="col-md-6"><label>Supplier</label><input asp-for="SupplierName" class="form-control"/></div>
+<div class="col-md-4"><label>GSTIN</label><input asp-for="SupplierGstin" class="form-control"/></div>
+<div class="col-md-4"><label>Invoice #</label><input asp-for="InvoiceNumber" class="form-control"/></div>
+<div class="col-md-4"><label>Date</label><input asp-for="InvoiceDate" type="date" class="form-control"/></div>
+<div class="col-md-3"><label>HSN/SAC</label><input asp-for="HsnSac" class="form-control"/></div><div class="col-md-3"><label>Qty</label><input asp-for="Quantity" class="form-control"/></div><div class="col-md-3"><label>Unit</label><input asp-for="UnitType" class="form-control"/></div><div class="col-md-3"><label>Rate</label><input asp-for="PurchaseRate" class="form-control"/></div>
+<div class="col-md-3"><label>GST %</label><input asp-for="GstPercentage" class="form-control"/></div><div class="col-md-3"><label>CGST</label><input asp-for="CgstAmount" class="form-control"/></div><div class="col-md-3"><label>SGST</label><input asp-for="SgstAmount" class="form-control"/></div><div class="col-md-3"><label>Taxable</label><input asp-for="TaxableAmount" class="form-control"/></div>
+<div class="col-md-4"><label>Total</label><input asp-for="TotalAmount" class="form-control"/></div><div class="col-md-8"><label>Notes</label><input asp-for="Notes" class="form-control"/></div>
+</div><button class="btn btn-primary mt-3">Save Stock</button></form>
